@@ -73,3 +73,4 @@ public class SimpleFirstPersonController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 }
+
