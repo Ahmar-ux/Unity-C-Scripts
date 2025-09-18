@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
 public class ThirdPersonControllerRB : MonoBehaviour
 {
     [Header("Movement")]
@@ -26,7 +25,6 @@ public class ThirdPersonControllerRB : MonoBehaviour
     public float cameraCollisionRadius = 0.3f;
 
     private Rigidbody rb;
-    private Animator animator;
     private bool isGrounded;
     private float yaw;
     private float pitch;
@@ -39,7 +37,6 @@ public class ThirdPersonControllerRB : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         rb.useGravity = false;
         cameraDistance = cameraOffset.magnitude;
@@ -52,7 +49,6 @@ public class ThirdPersonControllerRB : MonoBehaviour
     {
         ReadInput();
         HandleCameraInput();
-        UpdateAnimator();
     }
 
     void FixedUpdate()
@@ -145,13 +141,7 @@ public class ThirdPersonControllerRB : MonoBehaviour
         cameraTransform.rotation = Quaternion.Slerp(cameraTransform.rotation, cameraRot, Time.deltaTime * 12f);
     }
 
-    void UpdateAnimator()
-    {
-        float moveSpeed = desiredMove.magnitude;
-        animator.SetFloat("Walk", moveSpeed > 0.01f ? 1f : 0f);
-    }
-
-    //  Called by DollController
+    // Called by DollController
     public bool IsMoving()
     {
         return desiredMove.magnitude > 0.1f;
@@ -161,7 +151,7 @@ public class ThirdPersonControllerRB : MonoBehaviour
     {
         Debug.Log("Player died.");
         enabled = false;
-        animator.SetFloat("Walk", 0f);
-        // Add ragdoll, death anim, or restart here if you want
+        // Add ragdoll, restart, etc. here if you want
     }
 }
+
